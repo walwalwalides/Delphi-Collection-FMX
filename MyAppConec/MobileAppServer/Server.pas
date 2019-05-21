@@ -7,6 +7,7 @@
 { Email : WalWalWalides@gmail.com }
 { GitHub :https://github.com/walwalwalides }
 { ******************************************** }
+
 unit Server;
 
 interface
@@ -16,8 +17,8 @@ uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
-  TForm3 = class(TForm)
-    Label1: TLabel;
+  TfrmServer = class(TForm)
+    lblDTServ: TLabel;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -26,23 +27,25 @@ type
   end;
 
 var
-  Form3: TForm3;
+  frmServer: TfrmServer;
 
 implementation
 
 {$R *.fmx}
 {$R *.Windows.fmx MSWINDOWS}
 
-procedure TForm3.FormCreate(Sender: TObject);
+procedure TfrmServer.FormCreate(Sender: TObject);
 begin
   Position := TFormPosition.MainFormCenter;
-  Label1.Position.x := 3;
-  Label1.Position.y := 3;
-  Label1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.FontColor];
-//  Label1.TextSettings.Font.Style := [TFontStyle.fsBold];
-  Label1.TextSettings.Font.Size := 25;
-//  Label1.TextSettings.Font.Style := Label1.TextSettings.Font.Style + [TFontStyle.fsBold];
-  Label1.Text := 'Starting Time : '+DateTimeToStr(Now);
+  lblDTServ.Position.x := 3;
+  lblDTServ.Position.y := 3;
+  lblDTServ.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.FontColor];
+  //----------------------------------------------------------------------------------------------
+//  lblDTServ.TextSettings.Font.Style := [TFontStyle.fsBold];
+  lblDTServ.TextSettings.Font.Size := 25;
+//  lblDTServ.TextSettings.Font.Style := lblDTServ.TextSettings.Font.Style + [TFontStyle.fsBold];
+  lblDTServ.Text := 'Starting Time : '+DateTimeToStr(Now);
+
 end;
 
 end.

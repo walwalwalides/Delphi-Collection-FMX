@@ -1,4 +1,4 @@
-object Form3: TForm3
+object frmServer: TfrmServer
   Left = 0
   Top = 0
   Caption = 'Form3'
@@ -10,7 +10,7 @@ object Form3: TForm3
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
   DesignerMasterStyle = 0
-  object Label1: TLabel
+  object lblDTServ: TLabel
     StyledSettings = [Family, Size, FontColor]
     Position.X = 16.000000000000000000
     Position.Y = 136.000000000000000000
@@ -18,6 +18,6 @@ object Form3: TForm3
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
     TextSettings.Font.StyleExt = {04070000000000000004000000}
-    Text = 'Label1'
+    Text = 'lblDTServ'
   end
 end

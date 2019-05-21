@@ -4,7 +4,7 @@ uses
   FMX.Forms,
   Web.WebReq,
   IdHTTPWebBrokerBridge,
-  Server in 'Server.pas' {Form3},
+  Server in 'Server.pas' {frmServer},
   ServerMethodsServ in 'ServerMethodsServ.pas' {ServerMethods: TDSServerModule},
   ServerContainerServ in 'ServerContainerServ.pas' {ServerContainer1: TDataModule};
 
@@ -12,8 +12,8 @@ uses
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm3, Form3);
+  AApplication.CreateForm(TfrmServer, frmServer);
   Application.CreateForm(TServerContainer1, ServerContainer1);
-  Application.Run;
+  pplication.Run;
 end.
 
