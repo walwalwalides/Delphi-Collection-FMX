@@ -15,9 +15,9 @@ object Form3: TForm3
     Position.X = 16.000000000000000000
     Position.Y = 136.000000000000000000
     Size.Width = 345.000000000000000000
-    Size.Height = 17.000000000000000000
+    Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
-    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.Font.StyleExt = {04070000000000000004000000}
     Text = 'Label1'
   end
 end
