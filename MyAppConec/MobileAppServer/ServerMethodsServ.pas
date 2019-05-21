@@ -8,6 +8,7 @@
 { GitHub :https://github.com/walwalwalides     }
 { ******************************************** }
 
+
 // U need to follow 2 steps before u can essay Debugging the project
 //1. Paste your libmysql.dll full path to VendorLib property of FDPhysMysqlDriverLink1 Component.
 //2. Create Database in my case the database name was  "mywalid"  (by changing the name of the Database you have to change All StoredProcName Propertys)
