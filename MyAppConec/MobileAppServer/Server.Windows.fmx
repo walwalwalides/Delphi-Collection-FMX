@@ -4,7 +4,7 @@ inherited Form3_Windows: TForm3_Windows
   ClientHeight = 130
   ClientWidth = 483
   DesignerMasterStyle = 0
-  inherited Label1: TLabel
-    TextSettings.Font.StyleExt = {00070000000000000004000000}
+  inherited lblDTServ: TLabel
+    TextSettings.Font.StyleExt = {04070000000000000004000000}
   end
 end

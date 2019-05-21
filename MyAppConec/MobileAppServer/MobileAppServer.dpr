@@ -12,8 +12,8 @@ uses
 
 begin
   Application.Initialize;
-  AApplication.CreateForm(TfrmServer, frmServer);
+  Application.CreateForm(TfrmServer, frmServer);
   Application.CreateForm(TServerContainer1, ServerContainer1);
-  pplication.Run;
+  Application.Run;
 end.
 

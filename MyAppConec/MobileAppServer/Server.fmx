@@ -1,7 +1,7 @@
 object frmServer: TfrmServer
   Left = 0
   Top = 0
-  Caption = 'Form3'
+  Caption = 'MobileAppServer'
   ClientHeight = 166
   ClientWidth = 605
   Fill.Kind = Solid
