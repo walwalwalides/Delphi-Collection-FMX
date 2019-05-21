@@ -1,6 +1,6 @@
 # Delphi-Collection-FMX
 My FMX Delphi Collection
-![](Delphi-Collection-FMX.jpg)
+![](Delphi-Collection-FMX.png)
 **Authors:**  *WalWalWalides*
 ------
 
