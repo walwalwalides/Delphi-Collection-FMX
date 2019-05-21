@@ -9,7 +9,6 @@ My FMX Delphi Collection
 | File | Contents | 
 | --- | --- |
 | .gitignore | Git ignores the files in this file |
-|[BatterflyTray](https://github.com/walwalwalides/Delphi-Collection/tree/master/BatterflyTray)|Connect Android App to Mysql Database Through Datasnap Server Using TCP as CommunicationProtocol|
- 
+|[MyAppConec](https://github.com/walwalwalides/Delphi-Collection-FMX/tree/master/MyAppConec)|Connect Android App to Mysql Database Through Datasnap Server Using TCP as CommunicationProtocol| 
 
 | README.md | The readme for this project
