@@ -7,7 +7,7 @@
 
 # Features  
 - Implementation of both the Client and Server in the same Application( in-Process Aonnectivity).
-- Integration of Stored Procedure in Mysql with Object Pascal;.
+- Integration of Stored Procedure in Mysql DataBase using Object Pascal.
 
 
 
