@@ -26,9 +26,9 @@
 |ClientModuleApp.pas |Client Module Unit|
 |ServerContainerServ.pas | Server Container Unit|
 |ServerMethodsServ.pas |Server Methods Unit|
-| Main.pas | Main view of the programme |
-| Server.pas | Server view of the programme |
-| MobileApp.dpk | The compiler project file(Client Side)) |
+| Main.pas | Main View of the programme |
+| Server.pas | Server View of the programme |
+| MobileApp.dpk | The Compiler project file(Client Side)) |
 | MobileApp.dproj | The MSBUILD project file (Client Side)|
 | MobileAppServer.dpk | The compiler project file (Server Side)|
 | MobileAppServer.dproj | The MSBUILD project file (Server Side)|
