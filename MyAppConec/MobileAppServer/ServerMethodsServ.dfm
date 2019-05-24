@@ -6,7 +6,6 @@ object ServerMethods: TServerMethods
   object ConnectionMain: TFDConnection
     Params.Strings = (
       'ConnectionDef=MYWALID_MYSQL')
-    Connected = True
     LoginPrompt = False
     Left = 337
     Top = 262
@@ -14,8 +13,8 @@ object ServerMethods: TServerMethods
   object ProcGetActive: TFDStoredProc
     Connection = ConnectionMain
     StoredProcName = 'mywalid.GetActive'
-    Left = 89
-    Top = 515
+    Left = 129
+    Top = 427
     ParamData = <
       item
         Position = 1
@@ -33,8 +32,8 @@ object ServerMethods: TServerMethods
   object ProcGetAdress: TFDStoredProc
     Connection = ConnectionMain
     StoredProcName = 'mywalid.GetAdress'
-    Left = 209
-    Top = 498
+    Left = 153
+    Top = 362
     ParamData = <
       item
         Position = 1
@@ -96,15 +95,15 @@ object ServerMethods: TServerMethods
     Connection = ConnectionMain
     SQL.Strings = (
       'SELECT * FROM tWorkerInfo')
-    Left = 75
-    Top = 383
+    Left = 51
+    Top = 335
   end
   object qrWorkerStatus: TFDQuery
     Connection = ConnectionMain
     SQL.Strings = (
       'SELECT * FROM tWorkerStatus')
-    Left = 336
-    Top = 443
+    Left = 360
+    Top = 307
   end
   object DSPWorkerInfo: TDataSetProvider
     DataSet = qrWorkerInfo
@@ -126,8 +125,8 @@ object ServerMethods: TServerMethods
     Connection = ConnectionMain
     Params = <>
     Macros = <>
-    Left = 256
-    Top = 380
+    Left = 296
+    Top = 252
   end
   object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
     VendorLib = 'C:\AllServer\mysql\lib\libmysql.dll'
