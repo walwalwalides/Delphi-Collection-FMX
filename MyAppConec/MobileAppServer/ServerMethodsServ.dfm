@@ -7,8 +7,8 @@ object ServerMethods: TServerMethods
     Params.Strings = (
       'ConnectionDef=MYWALID_MYSQL')
     LoginPrompt = False
-    Left = 337
-    Top = 262
+    Left = 473
+    Top = 230
   end
   object ProcGetActive: TFDStoredProc
     Connection = ConnectionMain
@@ -102,8 +102,8 @@ object ServerMethods: TServerMethods
     Connection = ConnectionMain
     SQL.Strings = (
       'SELECT * FROM tWorkerStatus')
-    Left = 360
-    Top = 307
+    Left = 312
+    Top = 363
   end
   object DSPWorkerInfo: TDataSetProvider
     DataSet = qrWorkerInfo

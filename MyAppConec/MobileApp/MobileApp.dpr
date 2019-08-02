@@ -5,7 +5,8 @@ uses
   FMX.Forms,
   MAIN in 'MAIN.pas' {Form4},
   ClientClassesApp in 'ClientClassesApp.pas',
-  ClientModuleApp in 'ClientModuleApp.pas' {ClientModule: TDataModule};
+  ClientModuleApp in 'ClientModuleApp.pas' {ClientModule: TDataModule},
+  About in 'About.pas' {frmAbout};
 
 {$R *.res}
 

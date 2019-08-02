@@ -2,10 +2,10 @@
   Software Name : 	MyAppConec
   ============================================ }
 { ******************************************** }
-{ Written By WalWalWalides                     }
-{ CopyRight © 2019                             }
-{ Email : WalWalWalides@gmail.com              }
-{ GitHub :https://github.com/walwalwalides     }
+{ Written By WalWalWalides }
+{ CopyRight © 2019 }
+{ Email : WalWalWalides@gmail.com }
+{ GitHub :https://github.com/walwalwalides }
 { ******************************************** }
 unit MAIN;
 
@@ -19,7 +19,7 @@ uses
   Data.DBXDataSnap, Data.DBXCommon, IPPeerClient, Data.DB, Datasnap.DBClient,
   Datasnap.DSConnect, Data.SqlExpr, System.Rtti, System.Bindings.Outputs,
   FMX.Bind.Editors, Data.Bind.EngExt, FMX.Bind.DBEngExt, Data.Bind.Components,
-  Data.Bind.DBScope;
+  Data.Bind.DBScope, System.ImageList, FMX.ImgList, System.Actions, FMX.ActnList, FMX.Menus;
 
 type
   TForm4 = class(TForm)
@@ -52,6 +52,15 @@ type
     BindSourceDB2: TBindSourceDB;
     LinkFillControlToField2: TLinkFillControlToField;
     Button2: TButton;
+    MMMain: TMainMenu;
+    mItemFile: TMenuItem;
+    mItemExit: TMenuItem;
+    mItemInfo: TMenuItem;
+    mItemAbout: TMenuItem;
+    ActLstMain: TActionList;
+    ActAbout: TAction;
+    ilMain: TImageList;
+    ActExit: TAction;
     procedure FormCreate(Sender: TObject);
     procedure DurationTimerTimer(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -60,6 +69,8 @@ type
     procedure ComboBox2Change(Sender: TObject);
     procedure ComboBox2Click(Sender: TObject);
     procedure WorkerNameEditKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
+    procedure ActAboutExecute(Sender: TObject);
+    procedure ActExitExecute(Sender: TObject);
   private
     { Private declarations }
     TimeSec: integer;
@@ -77,16 +88,34 @@ implementation
 
 {$R *.fmx}
 
-uses ClientModuleApp;
+uses ClientModuleApp, About;
 
 {$R *.NmXhdpiPh.fmx ANDROID}
 
+procedure TForm4.ActAboutExecute(Sender: TObject);
+begin
+
+  Application.CreateForm(TFrmAbout, FrmAbout);
+  FrmAbout.Position := TFormPosition.MainFormCenter;
+  try
+    FrmAbout.ShowModal;
+  finally
+    FreeAndNil(FrmAbout);
+  end;
+
+end;
+
+procedure TForm4.ActExitExecute(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TForm4.Button1Click(Sender: TObject);
 begin
-   TimeSec := 0;
-   Label6.Text := '00:00';
-  Label6.Visible:=false;
-  ComboBox2.ItemIndex :=-1;
+  TimeSec := 0;
+  Label6.Text := '00:00';
+  Label6.Visible := false;
+  ComboBox2.ItemIndex := -1;
   boolAddpram := false;
   Label2.Text := '';
   Label3.Text := '';
@@ -208,7 +237,8 @@ end;
 
 procedure TForm4.WorkerNameEditKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
-if Key=13 then   Button1Click(nil);
+  if Key = 13 then
+    Button1Click(nil);
 
 end;
 
@@ -216,15 +246,15 @@ procedure TForm4.Button2Click(Sender: TObject);
 begin
   // ClientModule.ServerMethods1Client.MoveRideToArchive(iactWorkID);
   // RideId := -1;
-//  DurationTimer.Enabled := false;
-//  TimeSec := 0;
-//  Label6.Text := '00:00';
-//  Memo1.Lines.Clear;
-//  Edit2.Text := '';
-//  ComboBox2.ItemIndex := -1;
-//  ComboBox2.Enabled := false;
+  // DurationTimer.Enabled := false;
+  // TimeSec := 0;
+  // Label6.Text := '00:00';
+  // Memo1.Lines.Clear;
+  // Edit2.Text := '';
+  // ComboBox2.ItemIndex := -1;
+  // ComboBox2.Enabled := false;
 
-{ TODO : Add more action using call methode }
+  { TODO : Add more action using call methode }
 end;
 
 procedure TForm4.ComboBox2Change(Sender: TObject);
