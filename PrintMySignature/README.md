@@ -1,5 +1,5 @@
 # PrintMySignature
-- Draw Signature and Save as Image .                                                                
+- Draw Signature and Save as Bitmap Image .                                                                
 ![](PrintMySignature.png) 
 
 
