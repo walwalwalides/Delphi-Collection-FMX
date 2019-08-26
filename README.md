@@ -8,10 +8,10 @@ My FMX Delphi Collection
 
 | File | Contents | 
 | --- | --- |
-| .gitignore | Git ignores the files in this file |
+| .gitignore | Git ignores the Files in this File |
 |[MyAppConec](https://github.com/walwalwalides/Delphi-Collection-FMX/tree/master/MyAppConec)|Connect Android App to Mysql Database Through Datasnap Server Using TCP as CommunicationProtocol| 
 |[PrintMySignature](https://github.com/walwalwalides/Delphi-Collection-FMX/tree/master/PrintMySignature)|Draw Signature and Save as Bitmap Image| 
-| README.md | The readme for this project|
+| README.md | The Readme for this Project|
 
 ------
 
