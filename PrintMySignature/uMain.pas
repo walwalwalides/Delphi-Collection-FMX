@@ -4,8 +4,8 @@
 { ******************************************** }
 { Written By WalWalWalides }
 { CopyRight © 2019 }
-{ Email : WalWalWalides@gmail.com }
-{ GitHub :https://github.com/walwalwalides }
+{ Email : WalWalWalides@gmail.com           }
+{ GitHub :https://github.com/walwalwalides     }
 { ******************************************** }
 unit uMain;
 
@@ -15,7 +15,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   System.Generics.Collections,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects, FMX.StdCtrls, FMX.Controls.Presentation, System.ImageList, FMX.ImgList,
-  FMX.Colors, FMX.Printer, FMX.Menus;
+  FMX.Colors, FMX.Printer, FMX.Menus{$IFDEF WIN32},winapi.windows{$ENDIF};
 
 type
   TLineStatus = (sStart, sNext, sEnd);
@@ -79,7 +79,7 @@ implementation
 
 {$R *.fmx}
 
-uses FMX.platform, System.SysConst, Winapi.Windows,uAbout;
+uses FMX.platform, System.SysConst,uAbout;
 
 type
   TMyCursorService = class(TInterfacedObject, IFMXCursorService)
@@ -199,11 +199,13 @@ Const
 var
   rSource: TRect;
   rDest: TRect;
+  bmp:TBitmap;
 
 begin
   rSource := TRect.Create(iLeft, iTop, iRecW + iLeft, iRecH + iTop); // Rect in source bm
   rDest := TRect.Create(iRecX, iRecY, iRecW, iRecH); // Rect of destination bm
 
+  {$IFDEF ANDROID}
   if SaveDialog1.Execute then
     with TBitmap.Create do
     try
@@ -215,6 +217,7 @@ begin
     finally
     Free;
     end;
+   {$ENDIF}
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);

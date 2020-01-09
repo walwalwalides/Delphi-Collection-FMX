@@ -12,7 +12,7 @@ unit uAbout;
 
 interface
 
-uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+uses System.SysUtils, System.Variants,
   System.Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Types,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.ScrollBox, FMX.Memo;
 
@@ -37,7 +37,7 @@ var
 implementation
 
 {$R *.fmx}
-uses System.IOUtils, Winapi.ShellAPI;
+uses System.IOUtils{$IFDEF WIN32}, Winapi.ShellAPI,Winapi.Windows{$ENDIF};
 
 
 procedure TfrmAbout.launchGithub();
