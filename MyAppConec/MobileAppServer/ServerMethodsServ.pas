@@ -356,6 +356,9 @@ begin
 
 end;
 
+
+
+
 procedure TServerMethods.CreateTable2;
 var
   tmpScript: TFDScript;

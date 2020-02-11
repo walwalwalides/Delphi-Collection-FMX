@@ -4,18 +4,21 @@
 { ******************************************** }
 { Written By WalWalWalides }
 { CopyRight © 2019 }
-{ Email : WalWalWalides@gmail.com           }
-{ GitHub :https://github.com/walwalwalides     }
+{ Email : WalWalWalides@gmail.com }
+{ GitHub :https://github.com/walwalwalides }
 { ******************************************** }
 unit uMain;
 
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants,
   System.Generics.Collections,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects, FMX.StdCtrls, FMX.Controls.Presentation, System.ImageList, FMX.ImgList,
-  FMX.Colors, FMX.Printer, FMX.Menus{$IFDEF WIN32},winapi.windows{$ENDIF};
+  FMX.Types, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, System.ImageList, FMX.ImgList,
+  FMX.Colors, FMX.Printer, FMX.Menus{$IFDEF WIN32}, winapi.windows,
+  FMX.ExtCtrls, FMX.Controls, FMX.Effects, FMX.Filter.Effects{$ENDIF};
 
 type
   TLineStatus = (sStart, sNext, sEnd);
@@ -45,11 +48,17 @@ type
     MiExit: TMenuItem;
     MiInformation: TMenuItem;
     MiAbout: TMenuItem;
+    Button1: TButton;
+    Image1: TImage;
+    MonochromeEffect1: TMonochromeEffect;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
-    procedure PaintBox1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
-    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+    procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure PaintBox1MouseMove(Sender: TObject; Shift: TShiftState;
+      X, Y: Single);
     procedure PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
     procedure btnClearClick(Sender: TObject);
     procedure btnLastLineClick(Sender: TObject);
@@ -58,10 +67,15 @@ type
     procedure btnSaveSignatureClick(Sender: TObject);
     procedure MiExitClick(Sender: TObject);
     procedure MiAboutClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     DrawPoints: TList<TLinePoint>;
+    Marks: Single;
+    Frequency: Single;
     PressStatus: Boolean;
+    FLineFill: TStrokeBrush;
     procedure AddPoint(const X, Y: Single; const Status: TLineStatus);
+    function snaptogrid(gridxy, pos: integer): integer;
 
     { private }
 
@@ -79,12 +93,12 @@ implementation
 
 {$R *.fmx}
 
-uses FMX.platform, System.SysConst,uAbout;
+uses FMX.platform, System.SysConst, uAbout, System.UIConsts, System.IOUtils, FMX.TextLayout, System.Math.vectors;
 
 type
   TMyCursorService = class(TInterfacedObject, IFMXCursorService)
   private
-//    class var FWinCursorService: TWinCursorService;
+    // class var FWinCursorService: TWinCursorService;
     class var FoldWinPlatformService: IFMXCursorService;
     class var FCursor: TCursor;
     class var FMyService: TMyCursorService;
@@ -102,9 +116,10 @@ const
 class constructor TMyCursorService.Create;
 begin
   FMyService := TMyCursorService.Create;
-  FoldWinPlatformService := IFMXCursorService(TPlatformServices.Current.GetPlatformService(IFMXCursorService));
+  FoldWinPlatformService := IFMXCursorService
+    (TPlatformServices.Current.GetPlatformService(IFMXCursorService));
   TPlatformServices.Current.RemovePlatformService(IFMXCursorService);
-  TPlatformServices.Current.AddPlatformService(IFMXCursorService, FmyService);
+  TPlatformServices.Current.AddPlatformService(IFMXCursorService, FMyService);
 end;
 
 function TMyCursorService.GetCursor: TCursor;
@@ -112,18 +127,37 @@ begin
   Result := FCursor;
 end;
 
+function TfrmMain.snaptogrid(gridxy, pos: integer): integer;
+var
+  i, u, t: integer;
+  hw: real;
+begin
+
+  hw := PaintBox1.Width / 25;
+
+  for i := 1 to 25 do
+  begin
+    u := trunc(hw * i);
+    t := trunc(hw * (i + 1));
+    if (pos > u) and (pos < t) then
+    begin
+
+      Result := trunc(hw * i);
+    end;
+  end;
+end;
+
 procedure TMyCursorService.SetCursor(const ACursor: TCursor);
 const
-MapCursor:
-array [1 .. 1] of PChar = (My_Signature);
+  MapCursor: array [1 .. 1] of PChar = (My_Signature);
 var
-  NewCursor:Hcursor;
+  NewCursor: Hcursor;
 begin
   FCursor := ACursor;
   if FCursor in [1 .. 1] then
   begin
-    NewCursor:=LoadCursorW(HInstance, MapCursor[FCursor]);
-    Winapi.Windows.SetCursor(NewCursor);
+    NewCursor := LoadCursorW(HInstance, MapCursor[FCursor]);
+    winapi.windows.SetCursor(NewCursor);
 
   end
   else
@@ -199,25 +233,79 @@ Const
 var
   rSource: TRect;
   rDest: TRect;
-  bmp:TBitmap;
+  bmp: TBitmap;
 
-begin
-  rSource := TRect.Create(iLeft, iTop, iRecW + iLeft, iRecH + iTop); // Rect in source bm
+Begin
+  rSource := TRect.Create(iLeft, iTop, iRecW + iLeft, iRecH + iTop);
+  // Rect in source bm
   rDest := TRect.Create(iRecX, iRecY, iRecW, iRecH); // Rect of destination bm
 
-  {$IFDEF ANDROID}
+{$IFDEF ANDROID}
   if SaveDialog1.Execute then
     with TBitmap.Create do
-    try
-    //         PixelFormat := pf32bit;
-    //     Width := Round(PaintBox1.Width);
-    //        Height := Round(PaintBox1.Height);
-    Canvas.DrawBitmap(PaintBox1.Canvas.Bitmap, rSource, rDest, 1);
-    SaveToFile(SaveDialog1.FileName);
-    finally
-    Free;
-    end;
-   {$ENDIF}
+      try
+        // PixelFormat := pf32bit;
+        // Width := Round(PaintBox1.Width);
+        // Height := Round(PaintBox1.Height);
+        Canvas.DrawBitmap(PaintBox1.Canvas.Bitmap, rSource, rDest, 1);
+        SaveToFile(SaveDialog1.FileName);
+      finally
+        Free;
+      end;
+{$ENDIF}
+  // PaintBox1.Canvas.Bitmap.SaveToFile('test.bmp');
+
+end;
+
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  MyCanvas: TCanvas;
+  Save: TCanvasSaveState;
+  pl: TRectF;
+  tmpPath: string;
+  MyBitmap: FMX.Graphics.TBitmap;
+  rScr, rDstr,aRect: TRectF;
+begin
+  tmpPath := Tpath.GetLibraryPath + 'test.bmp';
+
+  // Save := PaintBox1.Canvas.SaveState;
+  // try
+  // PaintBox1.Canvas.IntersectClipRect(TRectF.Create(20, 20, 100, 100));
+  // PaintBox1.Canvas.Fill.Color := claRed;
+  // PaintBox1.Canvas.FillEllipse(TRectF.Create(50, 50, 150, 150), 100);
+  // finally
+  // PaintBox1.Canvas.RestoreState(Save);
+  // end;
+  //
+  // // Example of ExcludeClipRect
+  // Save := PaintBox1.Canvas.SaveState;
+  // try
+  // PaintBox1.Canvas.ExcludeClipRect(TRectF.Create(60, 210, 90, 240));
+  // PaintBox1.Canvas.Fill.Color := claBlue;
+  // PaintBox1.Canvas.FillEllipse(TRectF.Create(50, 200, 100, 250), 100);
+  // pl.Create(60, 210, 90, 240);
+  // PaintBox1.Canvas.DrawRect(pl, 0, 0, AllCorners, 100);
+  // finally
+  // PaintBox1.Canvas.RestoreState(Save);
+  // end;
+  //
+    { TODO : save paintbox as bitmap and convert to jpg }
+
+  MyBitmap := FMX.Graphics.TBitmap.Create;
+//  rScr.Create(0, 0, PaintBox1.Width, PaintBox1.Height);
+//  PaintBox1.Canvas.BeginScene;
+//  PaintBox1.Canvas.DrawBitmap(MyBitmap, rScr, rScr, 20);
+//  PaintBox1.Canvas.EndScene;
+
+    aRect := RectF(0,0,MyBitmap.Width,MyBitmap.Height);
+ PaintBox1.Canvas.DrawBitmap(MyBitmap, aRect, PaintBox1.ClipRect, 1, False);
+
+  try
+    MyBitmap.SaveToFile(tmpPath);
+  finally
+    MyBitmap.Free;
+  end;
+
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -232,8 +320,11 @@ begin
   DrawPoints := TList<TLinePoint>.Create;
   btnClear.Cursor := crHandPoint;
 
-  TMyCursorService.Create
-
+  TMyCursorService.Create;
+  // ------------------------------- //
+  FLineFill := TStrokeBrush.Create(TBrushKind.Solid, $FF505050);
+  Marks := 50;
+  Frequency := 20;
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -251,9 +342,9 @@ var
   f: TfrmAbout;
 begin
 
-  if  Assigned(f) then
+  if Assigned(f) then
     Application.CreateForm(TfrmAbout, f);
-  f.Position :=  TFormPosition.MainFormCenter;
+  f.position := TFormPosition.MainFormCenter;
   try
     f.ShowModal;
   finally
@@ -264,7 +355,7 @@ end;
 
 procedure TfrmMain.MiExitClick(Sender: TObject);
 begin
-Application.terminate;
+  Application.terminate;
 end;
 
 procedure TfrmMain.AddPoint(const X, Y: Single; const Status: TLineStatus);
@@ -280,7 +371,8 @@ begin
   PaintBox1.Repaint;
 end;
 
-procedure TfrmMain.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+procedure TfrmMain.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
 begin
   if ssLeft in Shift then
   begin
@@ -290,7 +382,8 @@ begin
   end;
 end;
 
-procedure TfrmMain.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+procedure TfrmMain.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Single);
 begin
   if ssLeft in Shift then
   begin
@@ -299,7 +392,8 @@ begin
   end;
 end;
 
-procedure TfrmMain.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+procedure TfrmMain.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
 begin
   if (PressStatus = True) then
   begin
@@ -312,7 +406,93 @@ procedure TfrmMain.PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
 var
   TLP: TLinePoint;
   StartPoint: TPointF;
+
+  X, Y: Single;
+
+  TextLayout: TTextLayout;
+  TextPath: TPathData;
 begin
+  Canvas.Fill := Canvas.Fill;
+  TextLayout := TTextLayoutManager.DefaultTextLayout.Create;
+  try
+    TextPath := TPathData.Create;
+    try
+      TextLayout.Font.Size :=15;
+      TextLayout.Text := 'Enter a Number : ';
+      TextLayout.ConvertToPath(TextPath);
+      TextPath.ApplyMatrix(System.Math.vectors.TMatrix.CreateTranslation(3,0));
+      Canvas.FillPath(TextPath, 1);
+      Canvas.DrawPath(TextPath, 1);
+    finally
+      TextPath.Free;
+    end;
+  finally
+    TextLayout.Free;
+  end;
+  X := 0;
+  Y := 0;
+  Canvas.Stroke.Assign(FLineFill);
+  while X < Width / 2 do
+  begin
+    if (X = 0) then
+    begin
+      Canvas.Stroke.Thickness := 4;
+      Canvas.Stroke.Color := FLineFill.Color
+    end
+    else
+    begin
+      if (frac(X) = 0) and (frac(X / Frequency / Marks) = 0) then
+        Canvas.Stroke.Color := FLineFill.Color
+      else
+        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
+
+      Canvas.Stroke.Thickness := 1;
+    end;
+
+    Canvas.DrawLine(PointF(0, 0), PointF(0, 300), 1, Canvas.Stroke);
+    Canvas.DrawLine(PointF(300, 0), PointF(300, 300), 1, Canvas.Stroke);
+    Canvas.DrawLine(PointF(600, 0), PointF(600, 300), 1, Canvas.Stroke);
+    Canvas.DrawLine(PointF(900, 0), PointF(900, 300), 1, Canvas.Stroke);
+
+    // Canvas.DrawLine(PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2),
+    // 0), PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2), Height),
+    // 1, Canvas.Stroke);
+
+    // if X <> 0 then
+    // Canvas.DrawLine(PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness /
+    // 2), 0), PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness / 2),
+    // Height), 1, Canvas.Stroke);
+    X := X + Frequency;
+  end;
+  while Y < Height / 2 do
+  begin
+    if (Y = 0) then
+    begin
+      Canvas.Stroke.Thickness := 4;
+      Canvas.Stroke.Color := FLineFill.Color
+    end
+    else
+    begin
+      if (frac(Y) = 0) and (frac(Y / Frequency / Marks) = 0) then
+        Canvas.Stroke.Color := FLineFill.Color
+      else
+        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
+      Canvas.Stroke.Thickness := 1;
+    end;
+
+    Canvas.DrawLine(PointF(0, 0), PointF(900, 0), 1, Canvas.Stroke);
+    Canvas.DrawLine(PointF(0, 300), PointF(900, 300), 1, Canvas.Stroke);
+
+    // Canvas.DrawLine(PointF(0, round(Height / 2) + Y + (Canvas.Stroke.Thickness /
+    // 2)), PointF(Width, round(Height / 2) + Y + (Canvas.Stroke.Thickness / 2)),
+    // 1, Canvas.Stroke);
+    // if Y <> 0 then
+    // Canvas.DrawLine(PointF(0, round(Height / 2) - Y + (Canvas.Stroke.Thickness
+    // / 2)), PointF(Width, round(Height / 2) - Y + (Canvas.Stroke.Thickness /
+    // 2)), 1, Canvas.Stroke);
+    Y := Y + Frequency;
+  end;
+
   if (DrawPoints.Count < 0) then
     exit;
 

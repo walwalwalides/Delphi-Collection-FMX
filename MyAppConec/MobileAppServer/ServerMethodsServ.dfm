@@ -52,8 +52,8 @@ object ServerMethods: TServerMethods
   object FncgetriderequirementProc: TFDStoredProc
     Connection = ConnectionMain
     StoredProcName = '"fncGetRideRequirement"'
-    Left = 268
-    Top = 28
+    Left = 196
+    Top = 156
     ParamData = <
       item
         Position = 1
@@ -73,8 +73,8 @@ object ServerMethods: TServerMethods
   object ProcGetPosition: TFDStoredProc
     Connection = ConnectionMain
     StoredProcName = 'mywalid.GetPosition'
-    Left = 160
-    Top = 299
+    Left = 248
+    Top = 227
     ParamData = <
       item
         Position = 1
@@ -117,21 +117,21 @@ object ServerMethods: TServerMethods
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 280
-    Top = 208
+    Left = 88
+    Top = 120
   end
   object tmpScript: TFDScript
     SQLScripts = <>
     Connection = ConnectionMain
     Params = <>
     Macros = <>
-    Left = 296
+    Left = 192
     Top = 252
   end
   object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
     VendorLib = 'C:\AllServer\mysql\lib\libmysql.dll'
-    Left = 56
-    Top = 272
+    Left = 104
+    Top = 256
   end
   object ProcGetWorkID: TFDStoredProc
     Connection = ConnectionMain

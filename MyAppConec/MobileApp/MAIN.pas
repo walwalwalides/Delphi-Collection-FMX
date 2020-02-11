@@ -122,7 +122,7 @@ begin
   sAdress := '';
   Panel1.Visible := false;
   ComboBox2.Enabled := false;
-  if WorkerNameEdit.Text <> '' then
+  if (WorkerNameEdit.Text <> '') then
   begin
     Panel1.Visible := true;
 

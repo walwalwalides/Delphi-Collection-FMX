@@ -10,7 +10,7 @@ object ClientModule: TClientModule
       'DriverName=DataSnap'
       'DriverUnit=Data.DBXDataSnap'
       'HostName=localhost'
-      'Port=211'
+      'Port=212'
       'CommunicationProtocol=tcp/ip'
       'DatasnapContext=datasnap/'
       
@@ -18,7 +18,7 @@ object ClientModule: TClientModule
         '.Data.DbxClientDriver,Version=24.0.0.0,Culture=neutral,PublicKey' +
         'Token=91d62ebb5b0d1b1b'
       'Filters={}')
-    Left = 88
-    Top = 160
+    Left = 48
+    Top = 176
   end
 end

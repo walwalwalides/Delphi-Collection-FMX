@@ -3,19 +3,20 @@ object ServerContainer1: TServerContainer1
   Height = 271
   Width = 415
   object DSServer1: TDSServer
-    Left = 48
-    Top = 35
+    Left = 56
+    Top = 115
   end
   object DSTCPServerTransport1: TDSTCPServerTransport
+    Port = 212
     Server = DSServer1
     Filters = <>
-    Left = 104
-    Top = 9
+    Left = 120
+    Top = 40
   end
   object DSServerClass1: TDSServerClass
     OnGetClass = DSServerClass1GetClass
     Server = DSServer1
-    Left = 40
-    Top = 91
+    Left = 152
+    Top = 139
   end
 end
