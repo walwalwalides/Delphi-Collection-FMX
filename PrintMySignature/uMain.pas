@@ -51,6 +51,7 @@ type
     Button1: TButton;
     Image1: TImage;
     MonochromeEffect1: TMonochromeEffect;
+    OpenDialog1: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -412,86 +413,92 @@ var
   TextLayout: TTextLayout;
   TextPath: TPathData;
 begin
-  Canvas.Fill := Canvas.Fill;
-  TextLayout := TTextLayoutManager.DefaultTextLayout.Create;
-  try
-    TextPath := TPathData.Create;
-    try
-      TextLayout.Font.Size :=15;
-      TextLayout.Text := 'Enter a Number : ';
-      TextLayout.ConvertToPath(TextPath);
-      TextPath.ApplyMatrix(System.Math.vectors.TMatrix.CreateTranslation(3,0));
-      Canvas.FillPath(TextPath, 1);
-      Canvas.DrawPath(TextPath, 1);
-    finally
-      TextPath.Free;
-    end;
-  finally
-    TextLayout.Free;
-  end;
-  X := 0;
-  Y := 0;
-  Canvas.Stroke.Assign(FLineFill);
-  while X < Width / 2 do
-  begin
-    if (X = 0) then
-    begin
-      Canvas.Stroke.Thickness := 4;
-      Canvas.Stroke.Color := FLineFill.Color
-    end
-    else
-    begin
-      if (frac(X) = 0) and (frac(X / Frequency / Marks) = 0) then
-        Canvas.Stroke.Color := FLineFill.Color
-      else
-        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
 
-      Canvas.Stroke.Thickness := 1;
-    end;
+{$REGION 'Add three rectangle'}
 
-    Canvas.DrawLine(PointF(0, 0), PointF(0, 300), 1, Canvas.Stroke);
-    Canvas.DrawLine(PointF(300, 0), PointF(300, 300), 1, Canvas.Stroke);
-    Canvas.DrawLine(PointF(600, 0), PointF(600, 300), 1, Canvas.Stroke);
-    Canvas.DrawLine(PointF(900, 0), PointF(900, 300), 1, Canvas.Stroke);
+//
+//  Canvas.Fill := Canvas.Fill;
+//  TextLayout := TTextLayoutManager.DefaultTextLayout.Create;
+//  try
+//    TextPath := TPathData.Create;
+//    try
+//      TextLayout.Font.Size :=15;
+//      TextLayout.Text := 'Enter a Number : ';
+//      TextLayout.ConvertToPath(TextPath);
+//      TextPath.ApplyMatrix(System.Math.vectors.TMatrix.CreateTranslation(3,0));
+//      Canvas.FillPath(TextPath, 1);
+//      Canvas.DrawPath(TextPath, 1);
+//    finally
+//      TextPath.Free;
+//    end;
+//  finally
+//    TextLayout.Free;
+//  end;
+//  X := 0;
+//  Y := 0;
+//  Canvas.Stroke.Assign(FLineFill);
+//  while X < Width / 2 do
+//  begin
+//    if (X = 0) then
+//    begin
+//      Canvas.Stroke.Thickness := 4;
+//      Canvas.Stroke.Color := FLineFill.Color
+//    end
+//    else
+//    begin
+//      if (frac(X) = 0) and (frac(X / Frequency / Marks) = 0) then
+//        Canvas.Stroke.Color := FLineFill.Color
+//      else
+//        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
+//
+//      Canvas.Stroke.Thickness := 1;
+//    end;
+//
+//    Canvas.DrawLine(PointF(0, 0), PointF(0, 300), 1, Canvas.Stroke);
+//    Canvas.DrawLine(PointF(300, 0), PointF(300, 300), 1, Canvas.Stroke);
+//    Canvas.DrawLine(PointF(600, 0), PointF(600, 300), 1, Canvas.Stroke);
+//    Canvas.DrawLine(PointF(900, 0), PointF(900, 300), 1, Canvas.Stroke);
+//
+//    // Canvas.DrawLine(PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2),
+//    // 0), PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2), Height),
+//    // 1, Canvas.Stroke);
+//
+//    // if X <> 0 then
+//    // Canvas.DrawLine(PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness /
+//    // 2), 0), PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness / 2),
+//    // Height), 1, Canvas.Stroke);
+//    X := X + Frequency;
+//  end;
+//  while Y < Height / 2 do
+//  begin
+//    if (Y = 0) then
+//    begin
+//      Canvas.Stroke.Thickness := 4;
+//      Canvas.Stroke.Color := FLineFill.Color
+//    end
+//    else
+//    begin
+//      if (frac(Y) = 0) and (frac(Y / Frequency / Marks) = 0) then
+//        Canvas.Stroke.Color := FLineFill.Color
+//      else
+//        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
+//      Canvas.Stroke.Thickness := 1;
+//    end;
+//
+//    Canvas.DrawLine(PointF(0, 0), PointF(900, 0), 1, Canvas.Stroke);
+//    Canvas.DrawLine(PointF(0, 300), PointF(900, 300), 1, Canvas.Stroke);
+//
+//    // Canvas.DrawLine(PointF(0, round(Height / 2) + Y + (Canvas.Stroke.Thickness /
+//    // 2)), PointF(Width, round(Height / 2) + Y + (Canvas.Stroke.Thickness / 2)),
+//    // 1, Canvas.Stroke);
+//    // if Y <> 0 then
+//    // Canvas.DrawLine(PointF(0, round(Height / 2) - Y + (Canvas.Stroke.Thickness
+//    // / 2)), PointF(Width, round(Height / 2) - Y + (Canvas.Stroke.Thickness /
+//    // 2)), 1, Canvas.Stroke);
+//    Y := Y + Frequency;
+//  end;
 
-    // Canvas.DrawLine(PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2),
-    // 0), PointF(round(Width / 2) + X + (Canvas.Stroke.Thickness / 2), Height),
-    // 1, Canvas.Stroke);
-
-    // if X <> 0 then
-    // Canvas.DrawLine(PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness /
-    // 2), 0), PointF(round(Width / 2) - X + (Canvas.Stroke.Thickness / 2),
-    // Height), 1, Canvas.Stroke);
-    X := X + Frequency;
-  end;
-  while Y < Height / 2 do
-  begin
-    if (Y = 0) then
-    begin
-      Canvas.Stroke.Thickness := 4;
-      Canvas.Stroke.Color := FLineFill.Color
-    end
-    else
-    begin
-      if (frac(Y) = 0) and (frac(Y / Frequency / Marks) = 0) then
-        Canvas.Stroke.Color := FLineFill.Color
-      else
-        Canvas.Stroke.Color := MakeColor(FLineFill.Color, 0.4);
-      Canvas.Stroke.Thickness := 1;
-    end;
-
-    Canvas.DrawLine(PointF(0, 0), PointF(900, 0), 1, Canvas.Stroke);
-    Canvas.DrawLine(PointF(0, 300), PointF(900, 300), 1, Canvas.Stroke);
-
-    // Canvas.DrawLine(PointF(0, round(Height / 2) + Y + (Canvas.Stroke.Thickness /
-    // 2)), PointF(Width, round(Height / 2) + Y + (Canvas.Stroke.Thickness / 2)),
-    // 1, Canvas.Stroke);
-    // if Y <> 0 then
-    // Canvas.DrawLine(PointF(0, round(Height / 2) - Y + (Canvas.Stroke.Thickness
-    // / 2)), PointF(Width, round(Height / 2) - Y + (Canvas.Stroke.Thickness /
-    // 2)), 1, Canvas.Stroke);
-    Y := Y + Frequency;
-  end;
+  {$ENDREGION}
 
   if (DrawPoints.Count < 0) then
     exit;
